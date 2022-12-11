@@ -1,24 +1,22 @@
-pipeline{
-    agent any 
-    environment{
-        VERSION = "${env.BUILD_ID}"
+
+pipeline {
+    triggers {
+  pollSCM('* * * * *')
     }
-    stages{
-        stage("sonar quality check"){
-            agent {
-                docker {
-                    image 'openjdk:11'
+   agent any
+    tools {
+  maven 'M2_HOME'
+}
+    stages {
+
+        stage("build & SonarQube analysis") {          
+            steps {
+                dir('./fastfood_BackEnd/'){
+                    withSonarQubeEnv('SonarServer') {
+                        sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Hermann90_fastfoodtest'
+                        }
                 }
             }
-            steps{
-                script{
-                    withSonarQubeEnv(credentialsId: 'sonar-token') {
-                            sh 'chmod +x gradlew'
-                            sh './gradlew sonarqube'
-                    }
-
-                }  
-            }
-        }
+          }
     }
 }
