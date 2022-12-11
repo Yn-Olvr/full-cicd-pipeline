@@ -13,7 +13,7 @@ pipeline {
             steps {
                 dir('./fastfood_BackEnd/'){
                     withSonarQubeEnv('SonarServer') {
-                        sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Hermann90_fastfoodtest'
+                        sh 'mvn verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Yn-Olvr_full-cicd-pipeline'
                         }
                 }
             }
